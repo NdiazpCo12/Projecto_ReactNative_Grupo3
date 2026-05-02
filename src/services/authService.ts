@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { robleConfig } from '../config/robleConfig';
 import { AuthSession, AuthUser } from '../models/auth';
+import { normalizeDisplayText } from '../utils/text';
 import { sessionStorage } from './sessionStorage';
 
 type LoginBody = {
@@ -16,12 +17,12 @@ const jsonHeaders = { 'Content-Type': 'application/json; charset=UTF-8' };
 const messageFrom = (body: unknown, fallback: string) => {
   const value = body as { message?: unknown };
   if (typeof value?.message === 'string' && value.message.trim()) {
-    return value.message;
+    return normalizeDisplayText(value.message);
   }
   if (Array.isArray(value?.message)) {
-    return value.message.join(', ');
+    return normalizeDisplayText(value.message.join(', '));
   }
-  return fallback;
+  return normalizeDisplayText(fallback);
 };
 
 export const defaultUserPassword = 'ThePassword!1';
@@ -48,15 +49,15 @@ export const authService = {
         accessToken: response.data.accessToken ?? '',
         refreshToken: response.data.refreshToken ?? '',
         user: {
-          id: user.id ?? '',
-          email: user.email ?? '',
-          name: user.name ?? '',
-          role: user.role ?? '',
+          id: normalizeDisplayText(user.id ?? ''),
+          email: normalizeDisplayText(user.email ?? ''),
+          name: normalizeDisplayText(user.name ?? ''),
+          role: normalizeDisplayText(user.role ?? ''),
         },
       };
 
       if (!session.accessToken || !session.refreshToken) {
-        throw new Error('No fue posible iniciar sesion en este momento.');
+        throw new Error('No fue posible iniciar sesión en este momento.');
       }
 
       await sessionStorage.saveTokens(
@@ -68,7 +69,7 @@ export const authService = {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(
-          messageFrom(error.response?.data, 'No se pudo iniciar sesion.'),
+          messageFrom(error.response?.data, 'No se pudo iniciar sesión.'),
         );
       }
       throw error;

@@ -220,7 +220,7 @@ export const studentService = {
         groupName: group.groupName,
         groupCode: group.groupCode,
         groupCategoryName:
-          categoriesById.get(group.categoryId)?.name ?? 'Sin categoria',
+          categoriesById.get(group.categoryId)?.name ?? 'Sin categoría',
         enrollmentDate: membership.enrollmentDate,
       });
     });
@@ -414,7 +414,7 @@ export const studentService = {
               submittedAt: submission?.submittedAt,
               savedScoresByReviewee,
               statusLabel,
-              categoryName: category?.name ?? 'Sin categoria',
+              categoryName: category?.name ?? 'Sin categoría',
               canSubmit: canSubmit(
                 assessment,
                 submitted,
@@ -610,10 +610,10 @@ export const studentService = {
     const courseId = assignment.course.id.trim();
     const categoryId = assignment.assessment.categoryId.trim();
     if (!assessmentId || !reviewerStudentId || !groupId || !courseId || !categoryId) {
-      throw new Error('No fue posible identificar esta evaluacion.');
+      throw new Error('No fue posible identificar esta evaluación.');
     }
     if (Object.keys(scoresByReviewee).length === 0) {
-      throw new Error('Debes calificar a tus companeros antes de enviar.');
+      throw new Error('Debes calificar a tus compañeros antes de enviar.');
     }
 
     const existingRows = await robleClient.read('assessment_submissions', {
@@ -627,7 +627,7 @@ export const studentService = {
       return bDate.getTime() - aDate.getTime();
     })[0];
     if (existing && isSubmitted(existing)) {
-      throw new Error('Esta evaluacion ya fue enviada.');
+      throw new Error('Esta evaluación ya fue enviada.');
     }
     if (existing?.id) {
       await this.deleteSubmissionCascade(existing.id);

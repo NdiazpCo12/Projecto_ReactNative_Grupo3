@@ -1,6 +1,13 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useMemo, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { HeaderBand, Screen } from '../../../components/Screen';
 import { PrimaryButton, SurfaceCard } from '../../../components/ui';
@@ -9,7 +16,10 @@ import { colors } from '../../../theme/theme';
 import { userMessage } from '../../../utils/format';
 import { useStudentData } from '../StudentDataContext';
 
-type Props = NativeStackScreenProps<AssessmentStackParamList, 'AssessmentDetail'>;
+type Props = NativeStackScreenProps<
+  AssessmentStackParamList,
+  'AssessmentDetail'
+>;
 
 export function AssessmentDetailScreen({ navigation, route }: Props) {
   const { assessments, submitAssessment } = useStudentData();
@@ -39,17 +49,19 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
 
   const progressLabel = useMemo(() => {
     if (!assessment) return '';
-    return `Companero ${teammateIndex + 1} de ${assessment.teammates.length}`;
+    return `Compañero ${teammateIndex + 1} de ${assessment.teammates.length}`;
   }, [assessment, teammateIndex]);
 
   if (!assessment || !teammate) {
     return (
       <Screen>
         <HeaderBand>
-          <Text style={styles.title}>Evaluacion</Text>
+          <Text style={styles.title}>Evaluación</Text>
         </HeaderBand>
         <View style={styles.body}>
-          <Text style={styles.muted}>No fue posible abrir esta evaluacion.</Text>
+          <Text style={styles.muted}>
+            No fue posible abrir esta evaluación.
+          </Text>
           <PrimaryButton label="Volver" onPress={() => navigation.goBack()} />
         </View>
       </Screen>
@@ -74,7 +86,10 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
 
   const goNext = async () => {
     if (!validateCurrent()) {
-      Alert.alert('Evaluacion incompleta', 'Completa todos los criterios antes de continuar.');
+      Alert.alert(
+        'Evaluación incompleta',
+        'Completa todos los criterios antes de continuar.',
+      );
       return;
     }
     if (!isLast) {
@@ -83,8 +98,8 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
     }
 
     Alert.alert(
-      'Enviar evaluacion',
-      `Se enviaran las calificaciones de ${assessment.teammates.length} companeros.`,
+      'Enviar evaluación',
+      `Se enviarán las calificaciones de ${assessment.teammates.length} compañeros.`,
       [
         { text: 'Cancelar', style: 'cancel' },
         {
@@ -93,10 +108,13 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
             setIsSubmitting(true);
             try {
               await submitAssessment(assessment, ratings);
-              Alert.alert('Listo', 'Evaluacion enviada correctamente.');
+              Alert.alert('Listo', 'Evaluación enviada correctamente.');
               navigation.goBack();
             } catch (err) {
-              Alert.alert('Error', userMessage(err, 'No se pudo enviar la evaluacion.'));
+              Alert.alert(
+                'Error',
+                userMessage(err, 'No se pudo enviar la evaluación.'),
+              );
             } finally {
               setIsSubmitting(false);
             }
@@ -109,12 +127,19 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
   return (
     <Screen>
       <HeaderBand>
-        <TouchableOpacity disabled={isSubmitting} onPress={() => navigation.goBack()}>
-          <Text style={styles.back}>‹ Back</Text>
+        <TouchableOpacity
+          disabled={isSubmitting}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.back}>{'< Atrás'}</Text>
         </TouchableOpacity>
         <Text style={styles.title}>{assessment.assessment.name}</Text>
-        <Text style={styles.subtitle}>{assessment.course.code} - {assessment.course.name}</Text>
-        <Text style={styles.subtitle}>{assessment.categoryName} · {assessment.group.groupName}</Text>
+        <Text style={styles.subtitle}>
+          {assessment.course.code} - {assessment.course.name}
+        </Text>
+        <Text style={styles.subtitle}>
+          {assessment.categoryName} - {assessment.group.groupName}
+        </Text>
       </HeaderBand>
       <ScrollView contentContainerStyle={styles.scroll}>
         <Text style={styles.progress}>{progressLabel}</Text>
@@ -129,14 +154,19 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
             );
             return (
               <View key={criterionId} style={styles.criterion}>
-                <Text style={styles.criterionTitle}>{criterion.criterion.name}</Text>
+                <Text style={styles.criterionTitle}>
+                  {criterion.criterion.name}
+                </Text>
                 {criterion.criterion.description ? (
-                  <Text style={styles.muted}>{criterion.criterion.description}</Text>
+                  <Text style={styles.muted}>
+                    {criterion.criterion.description}
+                  </Text>
                 ) : null}
                 <Text style={styles.levelText}>
                   {selectedLevel
                     ? `${selectedLevel.label}: ${
-                        selectedLevel.descriptionEs || selectedLevel.descriptionEn
+                        selectedLevel.descriptionEs ||
+                        selectedLevel.descriptionEn
                       }`
                     : 'Selecciona un puntaje'}
                 </Text>
@@ -148,13 +178,15 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
                       onPress={() => setRating(criterionId, level.scoreValue)}
                       style={[
                         styles.levelButton,
-                        selected === level.scoreValue && styles.levelButtonSelected,
+                        selected === level.scoreValue &&
+                          styles.levelButtonSelected,
                       ]}
                     >
                       <Text
                         style={[
                           styles.levelButtonText,
-                          selected === level.scoreValue && styles.levelButtonTextSelected,
+                          selected === level.scoreValue &&
+                            styles.levelButtonTextSelected,
                         ]}
                       >
                         {level.scoreValue}
@@ -169,13 +201,13 @@ export function AssessmentDetailScreen({ navigation, route }: Props) {
       </ScrollView>
       <View style={styles.footer}>
         <PrimaryButton
-          label={teammateIndex === 0 ? 'Previous' : 'Anterior'}
+          label="Anterior"
           disabled={teammateIndex === 0 || isSubmitting}
           onPress={() => setTeammateIndex((value) => value - 1)}
         />
         <View style={styles.footerSpacer} />
         <PrimaryButton
-          label={isLast ? 'Enviar evaluacion' : 'Siguiente'}
+          label={isLast ? 'Enviar evaluación' : 'Siguiente'}
           loading={isSubmitting}
           onPress={goNext}
         />
@@ -193,7 +225,11 @@ const styles = StyleSheet.create({
   progress: { color: colors.slate, fontWeight: '900', marginBottom: 14 },
   person: { color: '#111827', fontSize: 19, fontWeight: '900' },
   muted: { color: colors.muted, marginTop: 6, lineHeight: 20 },
-  criterion: { paddingVertical: 18, borderTopWidth: 1, borderTopColor: colors.border },
+  criterion: {
+    paddingVertical: 18,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
   criterionTitle: { color: '#111827', fontSize: 16, fontWeight: '900' },
   levelText: { color: colors.muted, marginTop: 10, lineHeight: 20 },
   levels: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 14 },
@@ -207,7 +243,10 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     backgroundColor: colors.surface,
   },
-  levelButtonSelected: { backgroundColor: colors.primary, borderColor: colors.primary },
+  levelButtonSelected: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
   levelButtonText: { color: colors.slate, fontWeight: '900' },
   levelButtonTextSelected: { color: '#FFFFFF' },
   footer: {

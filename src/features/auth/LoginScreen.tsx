@@ -29,7 +29,7 @@ export function LoginScreen() {
       setError('');
       await signIn(normalized);
     } catch (err) {
-      setError(userMessage(err, 'No fue posible iniciar sesion.'));
+      setError(userMessage(err, 'No fue posible iniciar sesión.'));
     }
   };
 
@@ -45,7 +45,7 @@ export function LoginScreen() {
         </HeaderBand>
         <View style={styles.content}>
           <SurfaceCard>
-            <Text style={styles.title}>Iniciar sesion</Text>
+            <Text style={styles.title}>Iniciar sesión</Text>
             <Text style={styles.description}>
               Usa tu correo institucional. La app valida tu rol en Roble antes de entrar.
             </Text>

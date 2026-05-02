@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 import { robleConfig } from '../../config/robleConfig';
 import { JsonRecord } from '../../models/roble';
+import { normalizeDeepText, normalizeDisplayText } from '../../utils/text';
 import { sessionStorage } from '../sessionStorage';
 
 type CacheEntry = {
@@ -66,19 +67,20 @@ class RobleClient {
     try {
       const response = await client.get('/read', { params: query });
       if (!Array.isArray(response.data)) {
-        throw new Error('No fue posible leer la informacion solicitada.');
+        throw new Error('No fue posible leer la información solicitada.');
       }
-      const rows = response.data.filter(
-        (row): row is JsonRecord => row && typeof row === 'object',
-      );
+      const rows = response.data
+        .filter((row): row is JsonRecord => row && typeof row === 'object')
+        .map((row) => normalizeDeepText(row));
       readCache.set(cacheKey, { rows, expiresAt: Date.now() + ttlMs });
       return rows.map((row) => ({ ...row }));
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        const detail = normalizeDisplayText(
+          error.response?.data?.message ?? error.message,
+        );
         throw new Error(
-          `No se pudo cargar la informacion: ${
-            error.response?.data?.message ?? error.message
-          }`,
+          `No se pudo cargar la información: ${detail}`,
         );
       }
       throw error;
@@ -99,15 +101,16 @@ class RobleClient {
       const inserted = response.data?.inserted;
       const firstRecord = Array.isArray(inserted) ? inserted[0] : undefined;
       const id = firstRecord?._id ?? firstRecord?.id;
-      if (!id) throw new Error('No fue posible guardar la informacion.');
+      if (!id) throw new Error('No fue posible guardar la información.');
       this.invalidate();
       return id.toString();
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        const detail = normalizeDisplayText(
+          error.response?.data?.message ?? error.message,
+        );
         throw new Error(
-          `No se pudo guardar la informacion: ${
-            error.response?.data?.message ?? error.message
-          }`,
+          `No se pudo guardar la información: ${detail}`,
         );
       }
       throw error;
@@ -142,7 +145,7 @@ class RobleClient {
     }
     throw lastError instanceof Error
       ? lastError
-      : new Error('No fue posible actualizar la informacion.');
+      : new Error('No fue posible actualizar la información.');
   }
 
   async delete(table: string, idColumn: string, idValue: string) {

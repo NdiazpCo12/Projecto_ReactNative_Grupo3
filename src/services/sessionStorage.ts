@@ -1,12 +1,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AuthUser } from '../models/auth';
+import { normalizeDisplayText } from '../utils/text';
 
 const keys = {
   accessToken: 'accessToken',
   refreshToken: 'refreshToken',
   user: 'user',
 };
+
+const normalizeUser = (user: AuthUser): AuthUser => ({
+  id: normalizeDisplayText(user.id),
+  email: normalizeDisplayText(user.email),
+  name: normalizeDisplayText(user.name),
+  role: normalizeDisplayText(user.role),
+});
 
 export const sessionStorage = {
   async saveTokens(accessToken: string, refreshToken: string) {
@@ -25,14 +33,14 @@ export const sessionStorage = {
   },
 
   async saveUser(user: AuthUser) {
-    await AsyncStorage.setItem(keys.user, JSON.stringify(user));
+    await AsyncStorage.setItem(keys.user, JSON.stringify(normalizeUser(user)));
   },
 
   async getUser(): Promise<AuthUser | null> {
     const rawUser = await AsyncStorage.getItem(keys.user);
     if (!rawUser) return null;
     try {
-      return JSON.parse(rawUser) as AuthUser;
+      return normalizeUser(JSON.parse(rawUser) as AuthUser);
     } catch {
       return null;
     }

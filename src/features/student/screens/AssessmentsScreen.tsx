@@ -1,9 +1,15 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { HeaderBand, Screen } from '../../../components/Screen';
-import { EmptyState, LoadingState, PrimaryButton, StatusChip, SurfaceCard } from '../../../components/ui';
+import {
+  EmptyState,
+  LoadingState,
+  PrimaryButton,
+  StatusChip,
+  SurfaceCard,
+} from '../../../components/ui';
 import { AssessmentStackParamList } from '../../../navigation/types';
 import { colors } from '../../../theme/theme';
 import { formatDate } from '../../../utils/format';
@@ -13,7 +19,8 @@ type Nav = NativeStackNavigationProp<AssessmentStackParamList, 'Assessments'>;
 
 export function AssessmentsScreen() {
   const navigation = useNavigation<Nav>();
-  const { assessments, isLoadingAssessments, refreshAssessments } = useStudentData();
+  const { assessments, isLoadingAssessments, refreshAssessments } =
+    useStudentData();
 
   return (
     <Screen>
@@ -28,7 +35,9 @@ export function AssessmentsScreen() {
       >
         <HeaderBand>
           <Text style={styles.title}>Assessments</Text>
-          <Text style={styles.subtitle}>Califica a tus companeros cuando la actividad este activa.</Text>
+          <Text style={styles.subtitle}>
+            Califica a tus compañeros cuando la actividad esté activa.
+          </Text>
         </HeaderBand>
         <View style={styles.body}>
           {isLoadingAssessments ? (
@@ -40,13 +49,21 @@ export function AssessmentsScreen() {
               <SurfaceCard key={`${item.assessment.id}-${item.group.id}`}>
                 <View style={styles.cardHeader}>
                   <StatusChip label={item.statusLabel} />
-                  <Text style={styles.chevron}>›</Text>
+                  <Text style={styles.chevron}>{'>'}</Text>
                 </View>
                 <Text style={styles.cardTitle}>{item.assessment.name}</Text>
-                <Text style={styles.muted}>{item.course.code} - {item.course.name}</Text>
-                <Text style={styles.meta}>Disponible hasta {formatDate(item.assessment.endsAt)}</Text>
-                <Text style={styles.meta}>{item.categoryName} · {item.group.groupName}</Text>
-                <Text style={styles.helper}>Debes evaluar a {item.teammates.length} companeros</Text>
+                <Text style={styles.muted}>
+                  {item.course.code} - {item.course.name}
+                </Text>
+                <Text style={styles.meta}>
+                  Disponible hasta {formatDate(item.assessment.endsAt)}
+                </Text>
+                <Text style={styles.meta}>
+                  {item.categoryName} - {item.group.groupName}
+                </Text>
+                <Text style={styles.helper}>
+                  Debes evaluar a {item.teammates.length} compañeros
+                </Text>
                 <PrimaryButton
                   label={actionLabel(item.statusLabel)}
                   disabled={!item.canSubmit}
@@ -69,17 +86,17 @@ export function AssessmentsScreen() {
 const actionLabel = (status: string) => {
   switch (status) {
     case 'Completed':
-      return 'Evaluacion enviada';
+      return 'Evaluación enviada';
     case 'Scheduled':
       return 'Disponible pronto';
     case 'Closed':
       return 'Actividad cerrada';
     case 'No teammates':
-      return 'Sin companeros';
+      return 'Sin compañeros';
     case 'No criteria':
       return 'Sin criterios';
     default:
-      return 'Iniciar evaluacion';
+      return 'Iniciar evaluación';
   }
 };
 
@@ -88,7 +105,11 @@ const styles = StyleSheet.create({
   body: { padding: 22, gap: 16 },
   title: { color: '#FFFFFF', fontSize: 22, fontWeight: '900' },
   subtitle: { color: '#DDE9DE', fontSize: 15, marginTop: 6 },
-  cardHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   chevron: { color: colors.slate, fontSize: 32 },
   cardTitle: { color: '#111827', fontSize: 18, fontWeight: '900', marginTop: 18 },
   muted: { color: colors.muted, marginTop: 8 },

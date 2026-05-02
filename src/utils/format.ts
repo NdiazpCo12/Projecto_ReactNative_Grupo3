@@ -1,3 +1,5 @@
+import { normalizeDisplayText } from './text';
+
 export const formatDate = (date: Date) => {
   const day = date.getDate().toString().padStart(2, '0');
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -11,7 +13,7 @@ export const average = (values: number[]) => {
 
 export const userMessage = (error: unknown, fallback: string) => {
   if (error instanceof Error && error.message.trim()) {
-    return error.message.replace(/^Exception:\s*/i, '');
+    return normalizeDisplayText(error.message.replace(/^Exception:\s*/i, ''));
   }
-  return fallback;
+  return normalizeDisplayText(fallback);
 };

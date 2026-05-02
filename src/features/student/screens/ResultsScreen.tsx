@@ -35,7 +35,7 @@ export function ResultsScreen() {
           {isLoadingResults ? (
             <LoadingState />
           ) : results.courseResults.length === 0 ? (
-            <EmptyState title="No hay resultados publicos disponibles todavia." />
+            <EmptyState title="No hay resultados públicos disponibles todavía." />
           ) : (
             <>
               <SurfaceCard>

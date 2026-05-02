@@ -12,8 +12,10 @@ import {
   RobleGroupMemberRecord,
   RobleStudentRecord,
 } from '../../models/roble';
+import { normalizeDisplayText } from '../../utils/text';
 
-const text = (value: unknown, fallback = '') => value?.toString() ?? fallback;
+const text = (value: unknown, fallback = '') =>
+  normalizeDisplayText(value, fallback);
 
 const num = (value: unknown, fallback = 0) => {
   const parsed = Number.parseInt(text(value), 10);

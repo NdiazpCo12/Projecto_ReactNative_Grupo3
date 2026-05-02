@@ -1,16 +1,16 @@
 # Projecto_ReactNative_Grupo3
 
-Aplicacion React Native / Expo para el apartado de estudiante de Peer Assessment App.
+Aplicación React Native / Expo para el apartado de estudiante de Peer Assessment App.
 
 Esta app se conecta a la misma base Roble usada por el proyecto Flutter original y permite que el estudiante:
 
-- Inicie sesion con Roble.
+- Inicie sesión con Roble.
 - Consulte cursos y grupos asignados.
 - Revise evaluaciones disponibles.
-- Califique a sus companeros de grupo.
-- Envie evaluaciones a Roble.
-- Consulte resultados publicos por curso.
-- Gestione perfil y cierre de sesion.
+- Califique a sus compañeros de grupo.
+- Envíe evaluaciones a Roble.
+- Consulte resultados públicos por curso.
+- Gestione perfil y cierre de sesión.
 
 ## Stack
 
@@ -23,7 +23,7 @@ Esta app se conecta a la misma base Roble usada por el proyecto Flutter original
 - Lucide React Native
 - React Native SVG
 
-## Instalacion
+## Instalación
 
 ```bash
 npm install
@@ -31,7 +31,7 @@ npm install
 
 ## Variables de entorno
 
-Copia `.env.example` a `.env` si necesitas cambiar la configuracion.
+Copia `.env.example` a `.env` si necesitas cambiar la configuración.
 
 Por defecto se usa:
 
@@ -68,5 +68,5 @@ npm run typecheck
 
 ## Nota
 
-El login usa la contrasena por defecto que ya utiliza el proyecto Flutter: `ThePassword!1`.
+El login usa la contraseña por defecto que ya utiliza el proyecto Flutter: `ThePassword!1`.
 Solo se permite acceso a usuarios con rol `estudiante`, `student` o `alumno`.
