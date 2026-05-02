@@ -12,6 +12,8 @@ Esta app se conecta a la misma base Roble usada por el proyecto Flutter original
 - Consulte resultados públicos por curso.
 - Gestione perfil y cierre de sesión.
 
+Link de Sustentacion (Video Funcionamiento PeerAssessment App StudentViews) : https://youtu.be/HyCaMVXLSMg
+
 ## Stack
 
 - Expo SDK 54
@@ -27,18 +29,6 @@ Esta app se conecta a la misma base Roble usada por el proyecto Flutter original
 
 ```bash
 npm install
-```
-
-## Variables de entorno
-
-Copia `.env.example` a `.env` si necesitas cambiar la configuración.
-
-Por defecto se usa:
-
-```txt
-EXPO_PUBLIC_ROBLE_DB_NAME=peerassessment_3320f2054b
-EXPO_PUBLIC_ROBLE_AUTH_BASE_URL=https://roble-api.openlab.uninorte.edu.co/auth/peerassessment_3320f2054b
-EXPO_PUBLIC_ROBLE_DB_BASE_URL=https://roble-api.openlab.uninorte.edu.co/database/peerassessment_3320f2054b
 ```
 
 ## Comandos
