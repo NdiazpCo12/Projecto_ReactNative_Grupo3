@@ -1,1 +1,88 @@
 # Projecto_ReactNative_Grupo3
+
+Aplicacion React Native / Expo para el apartado de estudiante de Peer Assessment.
+
+Esta app se conecta a la misma base Roble usada por el proyecto Flutter original y permite que el estudiante:
+
+- Inicie sesion con Roble.
+- Consulte cursos y grupos asignados.
+- Revise evaluaciones disponibles.
+- Califique a sus companeros de grupo.
+- Envie evaluaciones a Roble.
+- Consulte resultados publicos por curso.
+- Gestione perfil y cierre de sesion.
+
+## Stack
+
+- Expo SDK 54
+- React Native 0.81
+- TypeScript
+- React Navigation
+- AsyncStorage
+- Axios
+- Lucide React Native
+- React Native SVG
+
+## Instalacion
+
+```bash
+npm install
+```
+
+## Variables de entorno
+
+Copia `.env.example` a `.env` si necesitas cambiar la configuracion.
+
+Por defecto se usa:
+
+```txt
+EXPO_PUBLIC_ROBLE_DB_NAME=peerassessment_3320f2054b
+EXPO_PUBLIC_ROBLE_AUTH_BASE_URL=https://roble-api.openlab.uninorte.edu.co/auth/peerassessment_3320f2054b
+EXPO_PUBLIC_ROBLE_DB_BASE_URL=https://roble-api.openlab.uninorte.edu.co/database/peerassessment_3320f2054b
+```
+
+## Comandos
+
+```bash
+npm start
+npm run android
+npm run ios
+npm run web
+npm run typecheck
+```
+
+## Estructura
+
+```txt
+src/
+  components/
+  config/
+  features/
+    auth/
+    student/
+  models/
+  navigation/
+  services/
+    roble/
+  theme/
+  utils/
+```
+
+## Tablas Roble usadas
+
+- `students`
+- `group_members`
+- `course_groups`
+- `group_categories`
+- `courses`
+- `assessments`
+- `assessment_criteria`
+- `assessment_criterion_levels`
+- `assessment_submissions`
+- `assessment_peer_reviews`
+- `assessment_scores`
+
+## Notas
+
+El login usa la contrasena por defecto que ya utiliza el proyecto Flutter: `ThePassword!1`.
+Solo se permite acceso a usuarios con rol `estudiante`, `student` o `alumno`.
