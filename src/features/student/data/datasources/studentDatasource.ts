@@ -9,8 +9,8 @@ import {
   StudentCourseResults,
   StudentResultCriterionScore,
   StudentResultsSummary,
-} from '../../models/roble';
-import { average } from '../../utils/format';
+} from '../../domain/entities/studentModels';
+import { average } from '../../../../utils/format';
 import { robleClient } from './robleClient';
 import {
   mapAssessment,

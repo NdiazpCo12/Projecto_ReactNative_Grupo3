@@ -2,18 +2,18 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { HeaderBand, Screen } from '../../../components/Screen';
+import { HeaderBand, Screen } from '../../../../components/Screen';
 import {
   EmptyState,
   LoadingState,
   PrimaryButton,
   StatusChip,
   SurfaceCard,
-} from '../../../components/ui';
-import { AssessmentStackParamList } from '../../../navigation/types';
-import { colors } from '../../../theme/theme';
-import { formatDate } from '../../../utils/format';
-import { useStudentData } from '../StudentDataContext';
+} from '../../../../components/ui';
+import { AssessmentStackParamList } from '../../../../navigation/types';
+import { colors } from '../../../../theme/theme';
+import { formatDate } from '../../../../utils/format';
+import { useStudentData } from '../context/StudentDataContext';
 
 type Nav = NativeStackNavigationProp<AssessmentStackParamList, 'Assessments'>;
 

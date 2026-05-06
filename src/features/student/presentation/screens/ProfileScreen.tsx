@@ -9,10 +9,10 @@ import {
   User,
 } from 'lucide-react-native';
 
-import { HeaderBand, Screen } from '../../../components/Screen';
-import { PrimaryButton, SurfaceCard } from '../../../components/ui';
-import { colors } from '../../../theme/theme';
-import { useAuth } from '../../auth/AuthContext';
+import { HeaderBand, Screen } from '../../../../components/Screen';
+import { PrimaryButton, SurfaceCard } from '../../../../components/ui';
+import { colors } from '../../../../theme/theme';
+import { useAuth } from '../../../auth/presentation/context/AuthContext';
 
 export function ProfileScreen() {
   const { user, signOut } = useAuth();

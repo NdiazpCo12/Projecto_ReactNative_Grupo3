@@ -3,9 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { colors } from '../theme/theme';
-import { useAuth } from '../features/auth/AuthContext';
-import { LoginScreen } from '../features/auth/LoginScreen';
-import { StudentDataProvider } from '../features/student/StudentDataContext';
+import { useAuth } from '../features/auth/presentation/context/AuthContext';
+import { LoginScreen } from '../features/auth/presentation/screens/LoginScreen';
+import { StudentDataProvider } from '../features/student/presentation/context/StudentDataContext';
 import { StudentTabs } from './StudentTabs';
 import { RootStackParamList } from './types';
 

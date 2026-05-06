@@ -1,11 +1,11 @@
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BookOpen, RefreshCw, Users } from 'lucide-react-native';
 
-import { HeaderBand, Screen } from '../../../components/Screen';
-import { EmptyState, LoadingState, PrimaryButton, SurfaceCard } from '../../../components/ui';
-import { useAuth } from '../../auth/AuthContext';
-import { useStudentData } from '../StudentDataContext';
-import { colors } from '../../../theme/theme';
+import { HeaderBand, Screen } from '../../../../components/Screen';
+import { EmptyState, LoadingState, PrimaryButton, SurfaceCard } from '../../../../components/ui';
+import { useAuth } from '../../../auth/presentation/context/AuthContext';
+import { useStudentData } from '../context/StudentDataContext';
+import { colors } from '../../../../theme/theme';
 
 export function HomeScreen() {
   const { user } = useAuth();

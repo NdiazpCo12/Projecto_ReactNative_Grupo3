@@ -7,8 +7,9 @@ import {
   useState,
 } from 'react';
 
-import { AuthUser } from '../../models/auth';
-import { authService, isStudentRole } from '../../services/authService';
+import { AuthUser } from '../../domain/entities/authUser';
+import { authRepository } from '../../data/repositories/authRepositoryImpl';
+import { isStudentRole } from '../../data/datasources/authDatasource';
 
 type AuthContextValue = {
   user: AuthUser | null;
@@ -28,8 +29,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     let mounted = true;
     const restore = async () => {
-      const storedUser = await authService.getStoredUser();
-      const valid = await authService.verifyToken();
+      const storedUser = await authRepository.getStoredUser();
+      const valid = await authRepository.verifyToken();
       if (mounted) {
         setUser(valid && storedUser && isStudentRole(storedUser.role) ? storedUser : null);
         setIsBootstrapping(false);
@@ -49,9 +50,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
       async signIn(email: string) {
         setIsSubmitting(true);
         try {
-          const session = await authService.signIn(email);
+          const session = await authRepository.signIn(email);
           if (!isStudentRole(session.user.role)) {
-            await authService.clearLocalSession();
+            await authRepository.clearLocalSession();
             throw new Error(
               'Este proyecto solo habilita el apartado de estudiante.',
             );
@@ -62,7 +63,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         }
       },
       async signOut() {
-        await authService.logout();
+        await authRepository.logout();
         setUser(null);
       },
     }),

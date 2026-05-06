@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { robleConfig } from '../config/robleConfig';
-import { AuthSession, AuthUser } from '../models/auth';
-import { normalizeDisplayText } from '../utils/text';
-import { sessionStorage } from './sessionStorage';
+import { robleConfig } from '../../../../config/robleConfig';
+import { AuthSession, AuthUser } from '../../domain/entities/authUser';
+import { sessionStorage } from '../../../../core/local/LocalPreferencesAsyncStorage';
+import { normalizeDisplayText } from '../../../../utils/text';
 
 type LoginBody = {
   accessToken?: string;

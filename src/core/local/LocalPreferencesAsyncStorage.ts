@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { AuthUser } from '../models/auth';
-import { normalizeDisplayText } from '../utils/text';
+import { AuthUser } from '../../features/auth/domain/entities/authUser';
+import { normalizeDisplayText } from '../../utils/text';
+import { LocalPreferences } from './LocalPreferences';
 
 const keys = {
   accessToken: 'accessToken',
@@ -16,7 +17,7 @@ const normalizeUser = (user: AuthUser): AuthUser => ({
   role: normalizeDisplayText(user.role),
 });
 
-export const sessionStorage = {
+export const sessionStorage: LocalPreferences = {
   async saveTokens(accessToken: string, refreshToken: string) {
     await Promise.all([
       AsyncStorage.setItem(keys.accessToken, accessToken),

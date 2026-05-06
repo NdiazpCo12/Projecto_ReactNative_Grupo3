@@ -8,11 +8,11 @@ import {
   View,
 } from 'react-native';
 
-import { HeaderBand, Screen } from '../../components/Screen';
-import { PrimaryButton, SurfaceCard } from '../../components/ui';
-import { useAuth } from './AuthContext';
-import { colors } from '../../theme/theme';
-import { userMessage } from '../../utils/format';
+import { HeaderBand, Screen } from '../../../../components/Screen';
+import { PrimaryButton, SurfaceCard } from '../../../../components/ui';
+import { useAuth } from '../context/AuthContext';
+import { colors } from '../../../../theme/theme';
+import { userMessage } from '../../../../utils/format';
 
 export function LoginScreen() {
   const [email, setEmail] = useState('');

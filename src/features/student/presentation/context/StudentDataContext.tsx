@@ -13,9 +13,9 @@ import {
   StudentAssessmentAssignment,
   StudentCourseEnrollment,
   StudentResultsSummary,
-} from '../../models/roble';
-import { studentService } from '../../services/roble/studentService';
-import { useAuth } from '../auth/AuthContext';
+} from '../../domain/entities/studentModels';
+import { studentRepository } from '../../data/repositories/studentRepositoryImpl';
+import { useAuth } from '../../../auth/presentation/context/AuthContext';
 
 type StudentDataContextValue = {
   courses: StudentCourseEnrollment[];
@@ -57,7 +57,7 @@ export function StudentDataProvider({ children }: PropsWithChildren) {
   const refreshCourses = useCallback(async () => {
     setIsLoadingCourses(true);
     try {
-      setCourses(await studentService.getStudentEnrollments(email));
+      setCourses(await studentRepository.getStudentEnrollments(email));
       setError(undefined);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'No se pudieron cargar cursos.');
@@ -69,7 +69,7 @@ export function StudentDataProvider({ children }: PropsWithChildren) {
   const refreshAssessments = useCallback(async () => {
     setIsLoadingAssessments(true);
     try {
-      setAssessments(await studentService.getStudentAssessments(email));
+      setAssessments(await studentRepository.getStudentAssessments(email));
       setError(undefined);
     } catch (err) {
       setError(
@@ -83,7 +83,7 @@ export function StudentDataProvider({ children }: PropsWithChildren) {
   const refreshResults = useCallback(async () => {
     setIsLoadingResults(true);
     try {
-      setResults(await studentService.getStudentResults(email));
+      setResults(await studentRepository.getStudentResults(email));
       setError(undefined);
     } catch (err) {
       setResults(emptyStudentResultsSummary);
@@ -119,7 +119,7 @@ export function StudentDataProvider({ children }: PropsWithChildren) {
       refreshAssessments,
       refreshResults,
       async submitAssessment(assignment, scores) {
-        await studentService.submitStudentAssessment(assignment, scores);
+        await studentRepository.submitStudentAssessment(assignment, scores);
         await Promise.all([refreshAssessments(), refreshResults()]);
       },
     }),

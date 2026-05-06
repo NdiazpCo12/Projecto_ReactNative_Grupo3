@@ -41,7 +41,6 @@ npm run web
 npm run typecheck
 ```
 
-
 ## Tablas Roble usadas
 
 - `students`

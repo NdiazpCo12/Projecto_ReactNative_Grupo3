@@ -1,9 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { robleConfig } from '../../config/robleConfig';
-import { JsonRecord } from '../../models/roble';
-import { normalizeDeepText, normalizeDisplayText } from '../../utils/text';
-import { sessionStorage } from '../sessionStorage';
+import { robleConfig } from '../../../../config/robleConfig';
+import { JsonRecord } from '../../domain/entities/studentModels';
+import { sessionStorage } from '../../../../core/local/LocalPreferencesAsyncStorage';
+import { normalizeDeepText, normalizeDisplayText } from '../../../../utils/text';
 
 type CacheEntry = {
   rows: JsonRecord[];

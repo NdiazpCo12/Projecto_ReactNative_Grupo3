@@ -2,11 +2,11 @@ import { useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Svg, { Circle, Line, Polygon, Text as SvgText } from 'react-native-svg';
 
-import { HeaderBand, Screen } from '../../../components/Screen';
-import { EmptyState, LoadingState, SurfaceCard } from '../../../components/ui';
-import { colors } from '../../../theme/theme';
-import { formatDate } from '../../../utils/format';
-import { useStudentData } from '../StudentDataContext';
+import { HeaderBand, Screen } from '../../../../components/Screen';
+import { EmptyState, LoadingState, SurfaceCard } from '../../../../components/ui';
+import { colors } from '../../../../theme/theme';
+import { formatDate } from '../../../../utils/format';
+import { useStudentData } from '../context/StudentDataContext';
 
 export function ResultsScreen() {
   const { results, isLoadingResults, refreshResults } = useStudentData();

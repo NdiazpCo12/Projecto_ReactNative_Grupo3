@@ -9,12 +9,12 @@ import {
   View,
 } from 'react-native';
 
-import { HeaderBand, Screen } from '../../../components/Screen';
-import { PrimaryButton, SurfaceCard } from '../../../components/ui';
-import { AssessmentStackParamList } from '../../../navigation/types';
-import { colors } from '../../../theme/theme';
-import { userMessage } from '../../../utils/format';
-import { useStudentData } from '../StudentDataContext';
+import { HeaderBand, Screen } from '../../../../components/Screen';
+import { PrimaryButton, SurfaceCard } from '../../../../components/ui';
+import { AssessmentStackParamList } from '../../../../navigation/types';
+import { colors } from '../../../../theme/theme';
+import { userMessage } from '../../../../utils/format';
+import { useStudentData } from '../context/StudentDataContext';
 
 type Props = NativeStackScreenProps<
   AssessmentStackParamList,

@@ -11,8 +11,8 @@ import {
   RobleGroupCategoryRecord,
   RobleGroupMemberRecord,
   RobleStudentRecord,
-} from '../../models/roble';
-import { normalizeDisplayText } from '../../utils/text';
+} from '../../domain/entities/studentModels';
+import { normalizeDisplayText } from '../../../../utils/text';
 
 const text = (value: unknown, fallback = '') =>
   normalizeDisplayText(value, fallback);

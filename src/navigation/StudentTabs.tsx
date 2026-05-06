@@ -2,11 +2,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BarChart3, ClipboardList, Home, User } from 'lucide-react-native';
 
-import { AssessmentDetailScreen } from '../features/student/screens/AssessmentDetailScreen';
-import { AssessmentsScreen } from '../features/student/screens/AssessmentsScreen';
-import { HomeScreen } from '../features/student/screens/HomeScreen';
-import { ProfileScreen } from '../features/student/screens/ProfileScreen';
-import { ResultsScreen } from '../features/student/screens/ResultsScreen';
+import { AssessmentDetailScreen } from '../features/student/presentation/screens/AssessmentDetailScreen';
+import { AssessmentsScreen } from '../features/student/presentation/screens/AssessmentsScreen';
+import { HomeScreen } from '../features/student/presentation/screens/HomeScreen';
+import { ProfileScreen } from '../features/student/presentation/screens/ProfileScreen';
+import { ResultsScreen } from '../features/student/presentation/screens/ResultsScreen';
 import { colors } from '../theme/theme';
 import {
   AssessmentStackParamList,
