@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import {
   Bell,
+  Fingerprint,
   HelpCircle,
   LogOut,
   Mail,
@@ -15,7 +16,18 @@ import { colors } from '../../../../theme/theme';
 import { useAuth } from '../../../auth/presentation/context/AuthContext';
 
 export function ProfileScreen() {
-  const { user, signOut } = useAuth();
+  const {
+    user,
+    signOut,
+    enableBiometricLogin,
+    disableBiometricLogin,
+    refreshBiometricState,
+    isBiometricLoginEnabled,
+    isBiometricAvailable,
+    isBiometricSubmitting,
+    biometricLabel,
+    biometricReason,
+  } = useAuth();
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [assessmentReminders, setAssessmentReminders] = useState(true);
   const [newResults, setNewResults] = useState(true);
@@ -26,6 +38,31 @@ export function ProfileScreen() {
       { text: 'Salir', style: 'destructive', onPress: signOut },
     ]);
   };
+
+  const toggleBiometricLogin = async (enabled: boolean) => {
+    try {
+      if (enabled) {
+        await enableBiometricLogin();
+        Alert.alert(
+          'Biometric Verification',
+          `Ingreso con ${biometricLabel} activado.`,
+        );
+        return;
+      }
+      await disableBiometricLogin();
+    } catch (error) {
+      Alert.alert(
+        'Biometric Verification',
+        error instanceof Error
+          ? error.message
+          : 'No fue posible actualizar la verificacion biometrica.',
+      );
+    }
+  };
+
+  useEffect(() => {
+    refreshBiometricState();
+  }, [refreshBiometricState]);
 
   return (
     <Screen>
@@ -77,6 +114,23 @@ export function ProfileScreen() {
           </SurfaceCard>
           <SurfaceCard>
             <View style={styles.sectionHeader}>
+              <Fingerprint color={colors.primary} size={22} />
+              <Text style={styles.sectionTitle}>Biometric Verification</Text>
+            </View>
+            <Text style={styles.muted}>
+              {isBiometricAvailable
+                ? `Usa ${biometricLabel} para ingresar en este dispositivo.`
+                : biometricReason ?? 'Biometria no disponible en este dispositivo.'}
+            </Text>
+            <Toggle
+              label="Enable biometric login"
+              value={isBiometricLoginEnabled}
+              onValueChange={toggleBiometricLogin}
+              disabled={isBiometricSubmitting}
+            />
+          </SurfaceCard>
+          <SurfaceCard>
+            <View style={styles.sectionHeader}>
               <HelpCircle color={colors.primary} size={22} />
               <Text style={styles.sectionTitle}>Support</Text>
             </View>
@@ -107,15 +161,18 @@ function Toggle({
   label,
   value,
   onValueChange,
+  disabled,
 }: {
   label: string;
   value: boolean;
   onValueChange: (value: boolean) => void;
+  disabled?: boolean;
 }) {
   return (
     <View style={styles.toggleRow}>
       <Text style={styles.infoText}>{label}</Text>
       <Switch
+        disabled={disabled}
         value={value}
         onValueChange={onValueChange}
         thumbColor={value ? colors.primary : undefined}

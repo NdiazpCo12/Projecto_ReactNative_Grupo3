@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { robleConfig } from '../../../../config/robleConfig';
 import { AuthSession, AuthUser } from '../../domain/entities/authUser';
-import { sessionStorage } from '../../../../core/local/LocalPreferencesAsyncStorage';
+import { secureSessionStorage } from '../../../../core/local/SecureSessionStorage';
 import { normalizeDisplayText } from '../../../../utils/text';
 
 type LoginBody = {
@@ -60,11 +60,11 @@ export const authService = {
         throw new Error('No fue posible iniciar sesión en este momento.');
       }
 
-      await sessionStorage.saveTokens(
+      await secureSessionStorage.saveTokens(
         session.accessToken,
         session.refreshToken,
       );
-      await sessionStorage.saveUser(session.user);
+      await secureSessionStorage.saveUser(session.user);
       return session;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -77,9 +77,9 @@ export const authService = {
   },
 
   async logout() {
-    const token = await sessionStorage.getAccessToken();
+    const token = await secureSessionStorage.getAccessToken();
     if (!token) {
-      await sessionStorage.clearSession();
+      await secureSessionStorage.clearSession();
       return;
     }
 
@@ -88,12 +88,12 @@ export const authService = {
         headers: { Authorization: `Bearer ${token}` },
       });
     } finally {
-      await sessionStorage.clearSession();
+      await secureSessionStorage.clearSession();
     }
   },
 
   async verifyToken() {
-    const token = await sessionStorage.getAccessToken();
+    const token = await secureSessionStorage.getAccessToken();
     if (!token) return false;
     try {
       const response = await axios.get(`${robleConfig.authBaseUrl}/verify-token`, {
@@ -106,7 +106,7 @@ export const authService = {
   },
 
   async refreshToken() {
-    const refreshToken = await sessionStorage.getRefreshToken();
+    const refreshToken = await secureSessionStorage.getRefreshToken();
     if (!refreshToken) return false;
     try {
       const response = await axios.post<LoginBody>(
@@ -117,13 +117,13 @@ export const authService = {
       const accessToken = response.data.accessToken ?? '';
       const newRefreshToken = response.data.refreshToken ?? refreshToken;
       if (!accessToken) return false;
-      await sessionStorage.saveTokens(accessToken, newRefreshToken);
+      await secureSessionStorage.saveTokens(accessToken, newRefreshToken);
       return true;
     } catch {
       return false;
     }
   },
 
-  getStoredUser: sessionStorage.getUser,
-  clearLocalSession: sessionStorage.clearSession,
+  getStoredUser: secureSessionStorage.getUser,
+  clearLocalSession: secureSessionStorage.clearSession,
 };

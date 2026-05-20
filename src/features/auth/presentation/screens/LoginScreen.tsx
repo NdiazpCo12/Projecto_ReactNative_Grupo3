@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import { Fingerprint } from 'lucide-react-native';
 
 import { HeaderBand, Screen } from '../../../../components/Screen';
 import { PrimaryButton, SurfaceCard } from '../../../../components/ui';
@@ -17,7 +19,18 @@ import { userMessage } from '../../../../utils/format';
 export function LoginScreen() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const { signIn, isSubmitting } = useAuth();
+  const {
+    signIn,
+    signInWithBiometrics,
+    refreshBiometricState,
+    isSubmitting,
+    isBiometricSubmitting,
+    biometricLabel,
+  } = useAuth();
+
+  useEffect(() => {
+    refreshBiometricState();
+  }, [refreshBiometricState]);
 
   const submit = async () => {
     const normalized = email.trim().toLowerCase();
@@ -30,6 +43,15 @@ export function LoginScreen() {
       await signIn(normalized);
     } catch (err) {
       setError(userMessage(err, 'No fue posible iniciar sesión.'));
+    }
+  };
+
+  const submitBiometric = async () => {
+    try {
+      setError('');
+      await signInWithBiometrics();
+    } catch (err) {
+      setError(userMessage(err, 'No fue posible validar la biometria.'));
     }
   };
 
@@ -64,6 +86,22 @@ export function LoginScreen() {
               loading={isSubmitting}
               onPress={submit}
             />
+            <TouchableOpacity
+              activeOpacity={0.85}
+              disabled={isSubmitting || isBiometricSubmitting}
+              onPress={submitBiometric}
+              style={[
+                styles.biometricButton,
+                (isSubmitting || isBiometricSubmitting) && styles.disabled,
+              ]}
+            >
+              <Fingerprint color={colors.primary} size={19} />
+              <Text style={styles.biometricText}>
+                {isBiometricSubmitting
+                  ? 'Validando...'
+                  : `Ingresar con ${biometricLabel}`}
+              </Text>
+            </TouchableOpacity>
           </SurfaceCard>
           <Text style={styles.footer}>Powered by Roble</Text>
         </View>
@@ -115,6 +153,26 @@ const styles = StyleSheet.create({
     color: colors.danger,
     marginBottom: 14,
     lineHeight: 20,
+  },
+  biometricButton: {
+    minHeight: 48,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 12,
+    paddingHorizontal: 16,
+  },
+  biometricText: {
+    color: colors.primary,
+    fontWeight: '800',
+    fontSize: 15,
+  },
+  disabled: {
+    opacity: 0.55,
   },
   footer: {
     color: colors.muted,

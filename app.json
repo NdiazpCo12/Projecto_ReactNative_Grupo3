@@ -25,6 +25,15 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Peer Assessment usa Face ID para proteger el acceso a tu cuenta."
+        }
+      ],
+      "expo-secure-store"
+    ]
   }
 }

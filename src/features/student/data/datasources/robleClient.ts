@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 import { robleConfig } from '../../../../config/robleConfig';
 import { JsonRecord } from '../../domain/entities/studentModels';
-import { sessionStorage } from '../../../../core/local/LocalPreferencesAsyncStorage';
+import { secureSessionStorage } from '../../../../core/local/SecureSessionStorage';
 import { normalizeDeepText, normalizeDisplayText } from '../../../../utils/text';
 
 type CacheEntry = {
@@ -36,7 +36,7 @@ class RobleClient {
   private client?: AxiosInstance;
 
   private async http() {
-    const token = await sessionStorage.getAccessToken();
+    const token = await secureSessionStorage.getAccessToken();
     this.client ??= axios.create({
       baseURL: robleConfig.dbBaseUrl,
       timeout: 15000,
