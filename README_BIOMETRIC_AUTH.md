@@ -14,6 +14,7 @@ npx expo install expo-local-authentication expo-secure-store
 
 - `expo-local-authentication`: abre el prompt nativo de Face ID, Touch ID, huella, iris o biometria disponible.
 - `expo-secure-store`: guarda tokens de sesion de forma mas segura que AsyncStorage.
+- En Android se usa `biometricsSecurityLevel: 'weak'` para permitir biometria fuerte y biometria de clase 2, como reconocimiento facial por camara cuando el sistema lo expone.
 
 ## Flujo
 
@@ -58,6 +59,8 @@ src/features/student/presentation/screens/ProfileScreen.tsx
 ## Android
 
 Android es la primera plataforma recomendada para pruebas.
+
+La autenticacion usa nivel `weak` en Android para mejorar compatibilidad con dispositivos que tienen reconocimiento facial basico. Esto puede permitir face unlock por camara, pero el sistema operativo sigue decidiendo si muestra rostro, huella, patron, PIN o fallback.
 
 Checklist:
 
@@ -124,6 +127,7 @@ Para iPhone fisico con EAS se requiere Apple Developer Program. Para build local
 
 - La app no guarda rostro, huellas ni datos biometricos.
 - La biometria la maneja iOS o Android mediante el prompt nativo.
+- En Android se prioriza compatibilidad sobre maxima seguridad para permitir biometria `weak` cuando el dispositivo la soporte.
 - Los tokens se guardan en `expo-secure-store`.
 - La preferencia `biometricLoginEnabled` se guarda en AsyncStorage porque no es un secreto critico.
 - Antes de entrar con biometria, la app valida el token con Roble o intenta refrescarlo.

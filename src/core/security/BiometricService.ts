@@ -93,7 +93,7 @@ export const biometricService = {
       promptMessage,
       cancelLabel: 'Cancelar',
       fallbackLabel: 'Usar codigo',
-      biometricsSecurityLevel: 'strong',
+      biometricsSecurityLevel: 'weak',
     });
 
     if (result.success) {
