@@ -1,6 +1,7 @@
-# Biometric Authentication
+# Reconocimiento Biometrico
 
 Este documento describe la implementacion de ingreso biometrico para la app Peer Assessment Student.
+Link de Diapositivas: https://canva.link/i3cwn7duh9cwmrb
 
 ## Objetivo
 
