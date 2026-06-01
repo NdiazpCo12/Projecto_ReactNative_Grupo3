@@ -42,7 +42,7 @@ App React Native / Expo que implementa el flujo completo de **estudiante** y **p
 
 | Demo | Link |
 |------|------|
-| App RN (modo profe) vs App Flutter (modo estudiante) | `[link pendente]` |
+| App RN (modo profe) vs App Flutter (modo estudiante) | https://youtu.be/mBmo1tZYeQE |
 | Pruebas unitarias RN | https://www.youtube.com/watch?v=ksxU6OOw9yI |
 
 ---
