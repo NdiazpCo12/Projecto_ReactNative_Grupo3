@@ -9,10 +9,12 @@ import {
 
 import { AuthUser } from '../../domain/entities/authUser';
 import { authRepository } from '../../data/repositories/authRepositoryImpl';
-import { isStudentRole } from '../../data/datasources/authDatasource';
+import type { AppRole } from '../../domain/entities/appRole';
+import { resolveAppRole } from '../../data/datasources/authDatasource';
 
 type AuthContextValue = {
   user: AuthUser | null;
+  appRole: AppRole;
   isBootstrapping: boolean;
   isSubmitting: boolean;
   signIn: (email: string) => Promise<void>;
@@ -32,7 +34,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       const storedUser = await authRepository.getStoredUser();
       const valid = await authRepository.verifyToken();
       if (mounted) {
-        setUser(valid && storedUser && isStudentRole(storedUser.role) ? storedUser : null);
+        setUser(valid && storedUser ? storedUser : null);
         setIsBootstrapping(false);
       }
     };
@@ -45,18 +47,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
+      appRole: user ? resolveAppRole(user.role) : 'unknown',
       isBootstrapping,
       isSubmitting,
       async signIn(email: string) {
         setIsSubmitting(true);
         try {
           const session = await authRepository.signIn(email);
-          if (!isStudentRole(session.user.role)) {
-            await authRepository.clearLocalSession();
-            throw new Error(
-              'Este proyecto solo habilita el apartado de estudiante.',
-            );
-          }
           setUser(session.user);
         } finally {
           setIsSubmitting(false);

@@ -1,7 +1,5 @@
 import {
   emptyStudentResultsSummary,
-  RobleAssessment,
-  RobleAssessmentSubmission,
   StudentAssessmentAssignment,
   StudentAssessmentHistoryItem,
   StudentAssessmentTeammate,
@@ -10,8 +8,12 @@ import {
   StudentResultCriterionScore,
   StudentResultsSummary,
 } from '../../domain/entities/studentModels';
+import type {
+  RobleAssessment,
+  RobleAssessmentSubmission,
+} from '../../../../core/roble/models';
 import { average } from '../../../../utils/format';
-import { robleClient } from './robleClient';
+import { robleClient } from '../../../../core/roble/robleClient';
 import {
   mapAssessment,
   mapCourse,
@@ -27,7 +29,7 @@ import {
   peerReviewToJson,
   scoreToJson,
   submissionToJson,
-} from './robleMappers';
+} from '../../../../core/roble/mappers';
 
 const isSubmitted = (submission?: RobleAssessmentSubmission) =>
   Boolean(

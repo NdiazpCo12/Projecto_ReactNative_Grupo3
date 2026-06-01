@@ -4,9 +4,12 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { colors } from '../theme/theme';
 import { useAuth } from '../features/auth/presentation/context/AuthContext';
+import { isTeacherRole } from '../features/auth/domain/entities/appRole';
 import { LoginScreen } from '../features/auth/presentation/screens/LoginScreen';
 import { StudentDataProvider } from '../features/student/presentation/context/StudentDataContext';
 import { StudentTabs } from './StudentTabs';
+import { TeacherDataProvider } from '../features/teacher/presentation/context/TeacherDataContext';
+import { TeacherTabs } from './TeacherTabs';
 import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -20,7 +23,7 @@ const navTheme = {
 };
 
 export function RootNavigator() {
-  const { user, isBootstrapping } = useAuth();
+  const { user, appRole, isBootstrapping } = useAuth();
 
   if (isBootstrapping) {
     return (
@@ -30,17 +33,29 @@ export function RootNavigator() {
     );
   }
 
+  const isTeacher = isTeacherRole(appRole);
+
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
-          <Stack.Screen name="Student">
-            {() => (
-              <StudentDataProvider>
-                <StudentTabs />
-              </StudentDataProvider>
-            )}
-          </Stack.Screen>
+          isTeacher ? (
+            <Stack.Screen name="Teacher">
+              {() => (
+                <TeacherDataProvider>
+                  <TeacherTabs />
+                </TeacherDataProvider>
+              )}
+            </Stack.Screen>
+          ) : (
+            <Stack.Screen name="Student">
+              {() => (
+                <StudentDataProvider>
+                  <StudentTabs />
+                </StudentDataProvider>
+              )}
+            </Stack.Screen>
+          )
         ) : (
           <Stack.Screen name="Login" component={LoginScreen} />
         )}

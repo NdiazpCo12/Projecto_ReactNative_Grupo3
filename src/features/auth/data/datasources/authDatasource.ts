@@ -27,12 +27,24 @@ const messageFrom = (body: unknown, fallback: string) => {
 
 export const defaultUserPassword = 'ThePassword!1';
 
+export { resolveAppRole } from '../../domain/entities/appRole';
+
 export const isStudentRole = (role: string) => {
   const normalized = role.trim().toLowerCase();
   return (
     normalized === 'estudiante' ||
     normalized === 'student' ||
     normalized === 'alumno'
+  );
+};
+
+export const isTeacherRole = (role: string) => {
+  const normalized = role.trim().toLowerCase();
+  return (
+    normalized === 'teacher' ||
+    normalized === 'docente' ||
+    normalized === 'profesor' ||
+    normalized === 'admin'
   );
 };
 
